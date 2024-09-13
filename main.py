@@ -8,16 +8,17 @@ from simanneal import Annealer
 
 
 # 計算関数の例
-def calculate_z(x, y):
-    """x と y の状態に基づいて z を計算する関数"""
-    if x == "a" and y == "a":
+def calculate(x, y, z):
+    if x == "a" and y == "a" and z == "a":
         return 1
-    elif x == "b" and y == "b":
+    elif x == "b" and y == "b" and z == "b":
         return 2
-    elif x == "c" and y == "c":
+    elif x == "c" and y == "c" and z == "c":
         return 3
-    else:
+    elif x == "d" and y == "d" and z == "d":
         return 4
+    else:
+        return 5
 
 
 class MyProblem(Annealer):
@@ -31,15 +32,15 @@ class MyProblem(Annealer):
 
     def move(self):
         """状態をランダムに変更する"""
-        x, y = self.state
         new_x = random.choice(self.states)
         new_y = random.choice(self.states)
-        self.state = (new_x, new_y)
+        new_z = random.choice(self.states)
+        self.state = (new_x, new_y, new_z)
 
     def energy(self):
         """目的関数 z の値を計算し、エネルギーとして返す"""
-        x, y = self.state
-        e = calculate_z(x, y)
+        x, y, z = self.state
+        e = calculate(x, y, z)
         if self.record_history:  # フラグがTrueのときだけ記録
             self.energy_history.append(e)
         return e
@@ -63,10 +64,10 @@ def main():
     random.seed(1)
 
     # 状態の定義
-    states = ["a", "b", "c"]
+    states = ["a", "b", "c", "d"]
 
     # 初期状態を設定
-    initial_state = ("c", "c")
+    initial_state = ("c", "c", "d")
 
     # 問題を定義
     problem = MyProblem(initial_state, states)
