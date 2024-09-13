@@ -9,16 +9,15 @@ from simanneal import Annealer
 
 # 計算関数の例
 def calculate(x, y, z):
+    # time.sleep(0.1)
     if x == "a" and y == "a" and z == "a":
         return 1
-    elif x == "b" and y == "b" and z == "b":
+    elif (x == "a" and y == "a") or (y == "a" and z == "a") or (z == "a" and x == "a"):
         return 2
-    elif x == "c" and y == "c" and z == "c":
+    elif x == "a" or y == "a" or z == "a":
         return 3
-    elif x == "d" and y == "d" and z == "d":
-        return 4
     else:
-        return 5
+        return 4
 
 
 class MyProblem(Annealer):
@@ -73,7 +72,7 @@ def main():
     problem = MyProblem(initial_state, states)
 
     # 自動スケジュールを取得（この時はenergy_historyに追加しない）
-    problem.set_schedule(problem.auto(minutes=0.2))
+    problem.set_schedule(problem.auto(minutes=0.2, steps=5))
 
     # 最大イテレーション数を設定
     problem.steps = 10
